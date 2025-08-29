@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding-bottom: 150px;
+        }
+        
+        /* HEADER */
+        .checkout-header {
+            background-color: white;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .back-button {
+            font-size: 20px;
+            color: #333;
+            margin-right: 15px;
+        }
+        
+        /* RESERVATION SUMMARY */
+        .summary-section {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .service-name {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .service-price {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .total-price {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        /* PAYMENT METHODS */
+        .payment-section {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .payment-method:last-child {
+            border-bottom: none;
+        }
+        
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #4CAF50;
+            font-size: 18px;
+        }
+        
+        .payment-info {
+            flex: 1;
+        }
+        
+        .payment-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .payment-details {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .radio-button {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            margin-left: 10px;
+            position: relative;
+        }
+        
+        .radio-button.selected::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 12px;
+            height: 12px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+        }
+        
+        /* PAYMENT FORM */
+        .card-form {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: none; /* Inicialmente escondido */
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+        
+        .card-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .card-row .form-group {
+            flex: 1;
+        }
+        
+        /* FOOTER */
+        .checkout-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .total-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .total-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .total-value {
+            font-weight: bold;
+            font-size: 18px;
+            color: #4CAF50;
+        }
+        
+        .confirm-button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="checkout-header">
+        <div style="display: flex; align-items: center;">
+            <div class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="header-title">Finalizar Compra</div>
+        </div>
+    </div>
+    
+    <!-- RESERVATION SUMMARY -->
+    <div class="summary-section">
+        <h3 class="section-title">Resumo da Reserva</h3>
+        
+        <div class="service-item">
+            <div class="service-name">Corte Feminino + Lavagem</div>
+            <div class="service-price">AOA 80,00</div>
+        </div>
+        
+        <div class="service-item">
+            <div class="service-name">Data: 16/06/2023 às 14:00</div>
+            <div class="service-price">1 pessoa</div>
+        </div>
+        
+        <div class="total-price">
+            <span>Total</span>
+            <span>AOA 80,00</span>
+        </div>
+    </div>
+    
+    <!-- PAYMENT METHODS -->
+    <div class="payment-section">
+        <h3 class="section-title">Método de Pagamento</h3>
+        
+        <div class="payment-method" onclick="selectPayment('credit')">
+            <div class="payment-icon">
+                <i class="far fa-credit-card"></i>
+            </div>
+            <div class="payment-info">
+                <div class="payment-name">Cartão de Crédito</div>
+                <div class="payment-details">Parcelamento em até 12x</div>
+            </div>
+            <div class="radio-button" id="credit-radio"></div>
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment('pix')">
+            <div class="payment-icon">
+                <i class="fas fa-qrcode"></i>
+            </div>
+            <div class="payment-info">
+                <div class="payment-name">PIX</div>
+                <div class="payment-details">Pagamento instantâneo com 5% de desconto</div>
+            </div>
+            <div class="radio-button" id="pix-radio"></div>
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment('debit')">
+            <div class="payment-icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <div class="payment-info">
+                <div class="payment-name">Cartão de Débito</div>
+                <div class="payment-details">Pagamento à vista</div>
+            </div>
+            <div class="radio-button" id="debit-radio"></div>
+        </div>
+    </div>
+    
+    <!-- CREDIT CARD FORM (hidden by default) -->
+    <div class="card-form" id="credit-card-form">
+        <h3 class="section-title">Dados do Cartão</h3>
+        
+        <div class="form-group">
+            <label class="form-label">Número do Cartão</label>
+            <input type="text" class="form-input" placeholder="1234 5678 9012 3456">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Nome no Cartão</label>
+            <input type="text" class="form-input" placeholder="Nome como está no cartão">
+        </div>
+        
+        <div class="card-row">
+            <div class="form-group">
+                <label class="form-label">Validade</label>
+                <input type="text" class="form-input" placeholder="MM/AA">
+            </div>
+            <div class="form-group">
+                <label class="form-label">CVV</label>
+                <input type="text" class="form-input" placeholder="123">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Parcelas</label>
+            <select class="form-input">
+                <option>1x de AOA 80,00 sem juros</option>
+                <option>2x de AOA 40,00 sem juros</option>
+                <option>3x de AOA 26,67 sem juros</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- PIX FORM (hidden by default) -->
+    <div class="card-form" id="pix-form" style="text-align: center; padding: 30px 15px;">
+        <div style="font-size: 50px; color: #4CAF50; margin-bottom: 20px;">
+            <i class="fas fa-qrcode"></i>
+        </div>
+        <h3 style="margin-bottom: 15px;">Pague com PIX</h3>
+        <p style="color: #666; margin-bottom: 20px;">Escaneie o QR code ou copie o código abaixo para pagar</p>
+        <div style="background-color: #f0f0f0; padding: 15px; border-radius: 8px; font-family: monospace; word-break: break-all; margin-bottom: 20px;">
+            00020126580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-426655440000520400005303986540580.005802BR5908LOJAZINHA6007BRASILA62070503***6304A2B3
+        </div>
+        <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; border-radius: 5px; font-weight: 500;">
+            <i class="fas fa-copy"></i> Copiar Código
+        </button>
+    </div>
+    
+    <!-- FOOTER -->
+    <div class="checkout-footer">
+        <div class="total-container">
+            <div class="total-label">Total a pagar</div>
+            <div class="total-value">AOA 80,00</div>
+        </div>
+        <button class="confirm-button" id="confirm-button">Confirmar Pagamento</button>
+    </div>
+
+    <script>
+        // Selecionar método de pagamento
+        function selectPayment(method) {
+            // Reset all radio buttons
+            document.querySelectorAll('.radio-button').forEach(radio => {
+                radio.classList.remove('selected');
+            });
+            
+            // Hide all forms
+            document.querySelectorAll('.card-form').forEach(form => {
+                form.style.display = 'none';
+            });
+            
+            // Select the chosen method
+            document.getElementById(method + '-radio').classList.add('selected');
+            
+            // Show the appropriate form
+            if(method === 'credit') {
+                document.getElementById('credit-card-form').style.display = 'block';
+                document.getElementById('confirm-button').textContent = 'Pagar com Cartão';
+            } else if(method === 'pix') {
+                document.getElementById('pix-form').style.display = 'block';
+                document.getElementById('confirm-button').textContent = 'Já paguei com PIX';
+            } else {
+                document.getElementById('confirm-button').textContent = 'Pagar com Débito';
+            }
+        }
+        
+        // Initially select credit card
+        window.onload = function() {
+            selectPayment('credit');
+        };
+    </script>
+</body>
+</html>

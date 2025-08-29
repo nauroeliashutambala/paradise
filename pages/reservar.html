@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Reserva</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding-bottom: 100px;
+        }
+        
+        /* HEADER */
+        .reservation-header {
+            background-color: white;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .back-button {
+            font-size: 20px;
+            color: #333;
+            margin-right: 15px;
+        }
+        
+        /* SERVICE INFO */
+        .service-info {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .service-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .service-price {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .provider-info {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .provider-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .provider-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .provider-name {
+            font-weight: 500;
+        }
+        
+        /* RESERVATION FORM */
+        .reservation-form {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .form-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .date-selector {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 5px;
+        }
+        
+        .date-option {
+            min-width: 70px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .date-day {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .date-number {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 3px 0;
+        }
+        
+        .date-month {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .date-option.selected {
+            border-color: #4CAF50;
+            background-color: #e8f5e9;
+        }
+        
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .time-slot {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .time-slot.selected {
+            border-color: #4CAF50;
+            background-color: #e8f5e9;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .time-slot.unavailable {
+            background-color: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 150px;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .quantity-value {
+            font-size: 18px;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        /* SUMMARY */
+        .summary {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .summary-label {
+            color: #666;
+        }
+        
+        .summary-value {
+            font-weight: 500;
+        }
+        
+        .total {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        /* FOOTER */
+        .reservation-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .total-price {
+            font-weight: bold;
+            font-size: 18px;
+            color: #4CAF50;
+        }
+        
+        .confirm-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="reservation-header">
+        <div style="display: flex; align-items: center;">
+            <div class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="header-title">Nova Reserva</div>
+        </div>
+    </div>
+    
+    <!-- SERVICE INFO -->
+    <div class="service-info">
+        <div class="service-name">Corte Feminino + Lavagem</div>
+        <div class="service-price">AOA 80,00</div>
+        <div class="service-duration">Duração: 1 hora</div>
+        
+        <div class="provider-info">
+            <div class="provider-avatar">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Fornecedor">
+            </div>
+            <div class="provider-name">Salão Elegance</div>
+        </div>
+    </div>
+    
+    <!-- RESERVATION FORM -->
+    <div class="reservation-form">
+        <h3 class="form-title">Selecione a data</h3>
+        <div class="form-group">
+            <div class="date-selector">
+                <div class="date-option">
+                    <div class="date-day">Hoje</div>
+                    <div class="date-number">15</div>
+                    <div class="date-month">Jun</div>
+                </div>
+                <div class="date-option selected">
+                    <div class="date-day">Amanhã</div>
+                    <div class="date-number">16</div>
+                    <div class="date-month">Jun</div>
+                </div>
+                <div class="date-option">
+                    <div class="date-day">Sex</div>
+                    <div class="date-number">17</div>
+                    <div class="date-month">Jun</div>
+                </div>
+                <div class="date-option">
+                    <div class="date-day">Sáb</div>
+                    <div class="date-number">18</div>
+                    <div class="date-month">Jun</div>
+                </div>
+                <div class="date-option">
+                    <div class="date-day">Dom</div>
+                    <div class="date-number">19</div>
+                    <div class="date-month">Jun</div>
+                </div>
+            </div>
+        </div>
+        
+        <h3 class="form-title">Selecione o horário</h3>
+        <div class="form-group">
+            <div class="time-slots">
+                <div class="time-slot unavailable">09:00</div>
+                <div class="time-slot">10:00</div>
+                <div class="time-slot">11:00</div>
+                <div class="time-slot">12:00</div>
+                <div class="time-slot selected">14:00</div>
+                <div class="time-slot">15:00</div>
+                <div class="time-slot">16:00</div>
+                <div class="time-slot unavailable">17:00</div>
+                <div class="time-slot">18:00</div>
+            </div>
+        </div>
+        
+        <h3 class="form-title">Quantidade</h3>
+        <div class="form-group">
+            <div class="quantity-selector">
+                <button class="quantity-btn minus">-</button>
+                <div class="quantity-value">1</div>
+                <button class="quantity-btn plus">+</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SUMMARY -->
+    <div class="summary">
+        <h3 class="form-title">Resumo da reserva</h3>
+        <div class="summary-row">
+            <span class="summary-label">Serviço</span>
+            <span class="summary-value">Corte Feminino + Lavagem</span>
+        </div>
+        <div class="summary-row">
+            <span class="summary-label">Data</span>
+            <span class="summary-value">16/06/2023</span>
+        </div>
+        <div class="summary-row">
+            <span class="summary-label">Horário</span>
+            <span class="summary-value">14:00</span>
+        </div>
+        <div class="summary-row">
+            <span class="summary-label">Quantidade</span>
+            <span class="summary-value">1</span>
+        </div>
+        <div class="summary-row total">
+            <span>Total</span>
+            <span class="total-price">AOA 80,00</span>
+        </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <div class="reservation-footer">
+        <div class="total-price">AOA 80,00</div>
+        <button class="confirm-btn">Confirmar Reserva</button>
+    </div>
+
+    <script>
+        // Simples interação para seleção de data
+        document.querySelectorAll('.date-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelector('.date-option.selected').classList.remove('selected');
+                this.classList.add('selected');
+                
+                // Atualizar data no resumo
+                const dateNumber = this.querySelector('.date-number').textContent;
+                const dateMonth = this.querySelector('.date-month').textContent;
+                document.querySelector('.summary-value:nth-of-type(2)').textContent = `${dateNumber}/${dateMonth}/2023`;
+            });
+        });
+        
+        // Simples interação para seleção de horário
+        document.querySelectorAll('.time-slot:not(.unavailable)').forEach(slot => {
+            slot.addEventListener('click', function() {
+                document.querySelector('.time-slot.selected').classList.remove('selected');
+                this.classList.add('selected');
+                
+                // Atualizar horário no resumo
+                document.querySelector('.summary-value:nth-of-type(3)').textContent = this.textContent;
+            });
+        });
+        
+        // Simples interação para quantidade
+        document.querySelector('.plus').addEventListener('click', function() {
+            const quantityElement = document.querySelector('.quantity-value');
+            let quantity = parseInt(quantityElement.textContent);
+            quantityElement.textContent = quantity + 1;
+            
+            // Atualizar quantidade no resumo e valor total
+            document.querySelector('.summary-value:nth-of-type(4)').textContent = quantity + 1;
+            updateTotalPrice(quantity + 1);
+        });
+        
+        document.querySelector('.minus').addEventListener('click', function() {
+            const quantityElement = document.querySelector('.quantity-value');
+            let quantity = parseInt(quantityElement.textContent);
+            if (quantity > 1) {
+                quantityElement.textContent = quantity - 1;
+                
+                // Atualizar quantidade no resumo e valor total
+                document.querySelector('.summary-value:nth-of-type(4)').textContent = quantity - 1;
+                updateTotalPrice(quantity - 1);
+            }
+        });
+        
+        function updateTotalPrice(quantity) {
+            const unitPrice = 80;
+            const totalPrice = unitPrice * quantity;
+            document.querySelector('.total-price').textContent = `AOA ${totalPrice},00`;
+            document.querySelector('.reservation-footer .total-price').textContent = `AOA ${totalPrice},00`;
+        }
+    </script>
+</body>
+</html>

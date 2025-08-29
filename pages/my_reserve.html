@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Reservas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding-bottom: 80px;
+        }
+        
+        /* HEADER */
+        .header {
+            background-color: white;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .filter-button {
+            color: #4CAF50;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        /* STATUS TABS */
+        .status-tabs {
+            display: flex;
+            background-color: white;
+            padding: 0 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .status-tab {
+            padding: 15px;
+            text-align: center;
+            flex: 1;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .status-tab.active {
+            color: #4CAF50;
+        }
+        
+        .status-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #4CAF50;
+        }
+        
+        /* RESERVATIONS LIST */
+        .reservations-container {
+            padding: 15px;
+        }
+        
+        .reservation-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: flex-start;
+        }
+        
+        .reservation-status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-color: #FFF3E0;
+            color: #FFA000;
+        }
+        
+        .status-confirmed {
+            background-color: #E8F5E9;
+            color: #4CAF50;
+        }
+        
+        .status-canceled {
+            background-color: #FFEBEE;
+            color: #F44336;
+        }
+        
+        .reservation-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .reservation-date {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .reservation-date i {
+            margin-right: 8px;
+            color: #4CAF50;
+        }
+        
+        .reservation-provider {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .provider-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .provider-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .provider-name {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .reservation-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+            gap: 10px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .cancel-button {
+            background-color: white;
+            color: #F44336;
+            border: 1px solid #F44336;
+        }
+        
+        .contact-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #666;
+        }
+        
+        .empty-icon {
+            font-size: 50px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .empty-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        /* FOOTER NAV */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #888;
+        }
+        
+        .nav-text {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .nav-item.active .nav-icon,
+        .nav-item.active .nav-text {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-title">Minhas Reservas</div>
+        <button class="filter-button">
+            <i class="fas fa-filter"></i> Filtrar
+        </button>
+    </div>
+    
+    <!-- STATUS TABS -->
+    <div class="status-tabs">
+        <div class="status-tab active">Todas</div>
+        <div class="status-tab">Agendadas</div>
+        <div class="status-tab">Confirmadas</div>
+        <div class="status-tab">Concluídas</div>
+    </div>
+    
+    <!-- RESERVATIONS LIST -->
+    <div class="reservations-container">
+        <!-- Reserva 1 - Pendente -->
+        <div class="reservation-card">
+            <div class="reservation-header">
+                <div>
+                    <div class="reservation-title">Corte Feminino + Lavagem</div>
+                    <div class="reservation-date">
+                        <i class="far fa-calendar-alt"></i> 16/06/2023 às 14:00
+                    </div>
+                </div>
+                <div class="reservation-status status-pending">Pendente</div>
+            </div>
+            
+            <div class="reservation-provider">
+                <div class="provider-avatar">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Fornecedor">
+                </div>
+                <div class="provider-name">Salão Elegance</div>
+            </div>
+            
+            <div class="reservation-actions">
+                <button class="action-button cancel-button">Cancelar</button>
+                <button class="action-button contact-button">Contatar</button>
+            </div>
+        </div>
+        
+        <!-- Reserva 2 - Confirmada -->
+        <div class="reservation-card">
+            <div class="reservation-header">
+                <div>
+                    <div class="reservation-title">Manicure Completa</div>
+                    <div class="reservation-date">
+                        <i class="far fa-calendar-alt"></i> 18/06/2023 às 10:00
+                    </div>
+                </div>
+                <div class="reservation-status status-confirmed">Confirmada</div>
+            </div>
+            
+            <div class="reservation-provider">
+                <div class="provider-avatar">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Fornecedor">
+                </div>
+                <div class="provider-name">Studio Beauty</div>
+            </div>
+            
+            <div class="reservation-actions">
+                <button class="action-button cancel-button">Cancelar</button>
+                <button class="action-button contact-button">Contatar</button>
+            </div>
+        </div>
+        
+        <!-- Reserva 3 - Cancelada -->
+        <div class="reservation-card">
+            <div class="reservation-header">
+                <div>
+                    <div class="reservation-title">Massagem Relaxante</div>
+                    <div class="reservation-date">
+                        <i class="far fa-calendar-alt"></i> 10/06/2023 às 16:00
+                    </div>
+                </div>
+                <div class="reservation-status status-canceled">Cancelada</div>
+            </div>
+            
+            <div class="reservation-provider">
+                <div class="provider-avatar">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Fornecedor">
+                </div>
+                <div class="provider-name">SPA Relax</div>
+            </div>
+            
+            <div class="reservation-actions">
+                <button class="action-button contact-button">Agendar Novamente</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- EMPTY STATE (hidden by default) -->
+    <!-- <div class="empty-state">
+        <div class="empty-icon">
+            <i class="far fa-calendar-times"></i>
+        </div>
+        <div class="empty-text">Você não possui reservas</div>
+        <button class="action-button contact-button" style="width: auto; padding: 10px 20px;">
+            <i class="fas fa-search"></i> Buscar serviços
+        </button>
+    </div> -->
+    
+    <!-- FOOTER NAV -->
+    <div class="footer-nav">
+        <div class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="nav-text">Início</span>
+        </div>
+        <div class="nav-item active">
+            <i class="far fa-calendar-alt nav-icon"></i>
+            <span class="nav-text">Reservas</span>
+        </div>
+        <div class="nav-item">
+            <i class="far fa-heart nav-icon"></i>
+            <span class="nav-text">Favoritos</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span class="nav-text">Perfil</span>
+        </div>
+    </div>
+
+    <script>
+        // Simples interação para as tabs de status
+        document.querySelectorAll('.status-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelector('.status-tab.active').classList.remove('active');
+                this.classList.add('active');
+                
+                // Aqui você pode adicionar lógica para filtrar as reservas
+                // por status quando as tabs são clicadas
+            });
+        });
+    </script>
+</body>
+</html>

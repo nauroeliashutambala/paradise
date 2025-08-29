@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Fornecedor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding-bottom: 80px;
+        }
+        
+        /* HEADER */
+        .profile-header {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            z-index: 2;
+        }
+        
+        .cover-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+        
+        .profile-info {
+            position: relative;
+            margin-top: -50px;
+            padding: 0 15px;
+            z-index: 1;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            background-color: #ddd;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .profile-category {
+            color: #4CAF50;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .profile-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stars {
+            color: #FFD700;
+            margin-right: 10px;
+        }
+        
+        .rating-text {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .action-button {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .primary-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .secondary-button {
+            background-color: white;
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+        
+        /* CONTENT */
+        .profile-content {
+            padding: 15px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .see-all {
+            font-size: 14px;
+            color: #4CAF50;
+            font-weight: normal;
+        }
+        
+        .about-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .about-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .service-image {
+            height: 100px;
+        }
+        
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .service-info {
+            padding: 10px;
+        }
+        
+        .service-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .service-price {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        
+        .service-duration {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        /* FOOTER NAV */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #888;
+        }
+        
+        .nav-text {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .nav-item.active .nav-icon,
+        .nav-item.active .nav-text {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="profile-header">
+        <button class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <img src="https://images.unsplash.com/photo-1583845112203-454c6bc47ebf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Capa" class="cover-photo">
+    </div>
+    
+    <!-- PROFILE INFO -->
+    <div class="profile-info">
+        <div class="profile-avatar">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Avatar">
+        </div>
+        
+        <h1 class="profile-name">Salão Elegance</h1>
+        <div class="profile-category">Cabelo • Maquiagem • Estética</div>
+        
+        <div class="profile-rating">
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+            </div>
+            <div class="rating-text">4.8 (1.2k avaliações)</div>
+        </div>
+        
+        <div class="profile-actions">
+            <button class="action-button primary-button">
+                <i class="fas fa-calendar-alt"></i> Agendar
+            </button>
+            <button class="action-button secondary-button">
+                <i class="fas fa-comment"></i> Mensagem
+            </button>
+        </div>
+    </div>
+    
+    <!-- CONTENT -->
+    <div class="profile-content">
+        <div class="about-section">
+            <h2 class="section-title">Sobre nós</h2>
+            <p class="about-text">
+                O Salão Elegance oferece serviços de beleza e bem-estar há mais de 10 anos. Nossa equipe de profissionais altamente qualificados está pronta para proporcionar a melhor experiência em cuidados com cabelo, maquiagem e estética. Ambiente climatizado e atendimento personalizado.
+            </p>
+        </div>
+        
+        <h2 class="section-title">
+            Serviços populares
+            <a href="#" class="see-all">Ver todos</a>
+        </h2>
+        
+        <div class="services-grid">
+            <!-- Serviço 1 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Corte de cabelo">
+                </div>
+                <div class="service-info">
+                    <h3 class="service-name">Corte Feminino</h3>
+                    <div class="service-price">AOA 80,00</div>
+                    <div class="service-duration">50 min</div>
+                </div>
+            </div>
+            
+            <!-- Serviço 2 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Hidratação">
+                </div>
+                <div class="service-info">
+                    <h3 class="service-name">Hidratação Capilar</h3>
+                    <div class="service-price">AOA 120,00</div>
+                    <div class="service-duration">1h 30min</div>
+                </div>
+            </div>
+            
+            <!-- Serviço 3 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Barba">
+                </div>
+                <div class="service-info">
+                    <h3 class="service-name">Barba Completa</h3>
+                    <div class="service-price">AOA 50,00</div>
+                    <div class="service-duration">40 min</div>
+                </div>
+            </div>
+            
+            <!-- Serviço 4 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1498843053639-170ff2713072?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Maquiagem">
+                </div>
+                <div class="service-info">
+                    <h3 class="service-name">Maquiagem Profissional</h3>
+                    <div class="service-price">AOA 150,00</div>
+                    <div class="service-duration">1h 15min</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FOOTER NAV -->
+    <div class="footer-nav">
+        <div class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="nav-text">Início</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-search nav-icon"></i>
+            <span class="nav-text">Buscar</span>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-heart nav-icon"></i>
+            <span class="nav-text">Favoritos</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span class="nav-text">Perfil</span>
+        </div>
+    </div>
+</body>
+</html>

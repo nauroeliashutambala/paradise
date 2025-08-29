@@ -1,0 +1,376 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    width: 100dvw;
+    overflow-x: hidden;
+}
+
+nav {
+    height: 50px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 30px;
+    position: sticky;
+    box-shadow: 1px 3px 4px #33303052;
+    z-index: 5;
+    top: 0;
+    left: 0;
+}
+
+nav .logo {
+    width: 100%;
+}
+
+main {
+    width: 100%;
+    max-width: calc(100% - 100px);
+}
+
+main .search {
+    border: 1px solid #332f2f2f;
+    padding: 6px;
+    border-radius: 6px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    width: calc(100%-30px);
+    margin: 12px;
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
+
+
+main .search input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    padding: 6px;
+    border-radius: 12px;
+    outline: none;
+}
+
+main .search button {
+    border: 1px solid #332f2f2f;
+    min-width: 30px;
+    height: 30px;
+}
+
+main .search button img {
+    min-width: 100%;
+    height: 100%;
+}
+
+main .search select {
+    border: 1px solid #332f2f2f;
+    height: 30px;
+    background-color: #d0d1cf00;
+    border-radius: 6px 0 0 6px;
+}
+
+main .search select option {
+    border: 1px solid #332f2f2f;
+    height: 30px;
+    background-color: #ffffff;
+}
+
+nav img {
+    border: 1px solid #332f2f2f;
+    height: 30px;
+    min-width: 30px;
+    margin: 0 4px;
+    border-radius: 5px;
+    display: none;
+}
+
+.list {
+    overflow-y: hidden;
+    overflow-x: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: .3rem;
+}
+
+main {
+    padding: 12px;
+    overflow-y: auto;
+    height: auto;
+    display: inline-block;
+}
+
+a {
+    display: inline-flex;
+    width: 100%;
+    text-decoration: none;
+}
+
+a .card {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    min-width: 200px;
+    background-color: #ffffff;
+    margin: 8px 4px;
+    border: 1px solid white;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 1px 3px 5px #0000000c;
+    display: flex;
+    flex-direction: column;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    border: 1px solid #e9e4e4;
+    position: relative;
+
+}
+
+a .card:hover {
+    box-shadow: 1px 3px 5px #00000063;
+}
+
+a .card .descricao_card {
+    background-color: #020202a1;
+    width: calc(100% - 20px);
+    padding: 4px;
+    border-radius: 0 0 4px 4px;
+    position: absolute;
+    margin: 10px;
+    bottom: 0;
+    left: 0;
+    color: #ffffff;
+
+}
+
+a .card .descricao_card .nome {
+    color: #ffffff;
+
+}
+
+a .card .descricao_card .localizacao {
+    color: #d3c7c7;
+}
+
+a .card .descricao_card .preco {
+    color: #ffa321;
+    font-weight: bold;
+}
+
+a .card .img {
+    background-color: #ffffff;
+    height: calc(100% - 0px);
+    width: 100%;
+    background-image: url("../img/folder.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px 4px 0 0;
+
+}
+
+.principal {
+    display: flex;
+
+}
+
+.menu {
+    min-width: 240px;
+    border: 1px solid #332f2f2f;
+    height: 100dvh;
+    position: sticky;
+    top: 50px;
+    left: 0;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    transition: .3s ease;
+}
+
+.menu .item {
+    padding: 4px;
+    color: #464242;
+    border-radius: 4px;
+}
+
+.menu .item:hover {
+    padding: 4px;
+    color: #464242;
+    background-color: #ccc5c571;
+}
+
+.menu .item img {
+    width: 20px;
+    height: 20px;
+    margin: 0 4px;
+}
+
+.linha {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.linha.categoria h3 {
+    display: flex;
+    width: 100%;
+
+}
+
+.linha.categoria a {
+    justify-content: space-between;
+    align-items: center;
+    float: left;
+    text-align: right;
+    margin-right: 20px;
+    text-decoration: underline;
+    color: #1a1919;
+    width: auto;
+    min-width: 60px;
+}
+
+h2 span {
+    color: #b96e05;
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: wavy;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+}
+
+nav ul li {
+    margin: 0px 6px;
+}
+
+nav ul li a {
+    color: #464242;
+    display: flex;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.banner {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    height: 150px;
+}
+
+
+.banner-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.7), transparent);
+}
+
+.banner-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.banner-subtitle {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.banner-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.display_none{
+    display: none;
+}
+@media screen and (max-width: 1200px) {
+    nav {
+        padding: 6px 10px;
+    }
+
+    .list {
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+    nav ul {
+        display: none;
+    }
+
+    nav img {
+        display: inline;
+    }
+
+    main {
+        width: 100%;
+        max-width: 100%;
+        padding: 12px;
+    }
+
+    .menu {
+        position: fixed;
+        left: -100%;
+    }
+
+    .menu.open {
+        position: fixed;
+        left: 0;
+        z-index: 5;
+    }
+
+}
+
+@media screen and (max-width: 900px) {
+
+    .list {
+        overflow-y: hidden;
+        overflow-x: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        justify-content: center;
+    }
+
+    .menu {
+        position: absolute;
+        left: -100%;
+        z-index: 4;
+    }
+
+}
+
+@media screen and (max-width: 420px) {
+    .list {
+        grid-template-columns: 1fr;
+
+    }
+}

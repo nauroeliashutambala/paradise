@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../../assets/css/chat.css">
+  <style>
+    /* --- SIDEBAR --- */
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background: #fff;
+      border-right: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar h3 {
+      margin: 0;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      font-size: 18px;
+    }
+    .chat-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .chat-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.2s;
+    }
+    .chat-list li:hover {
+      background: #f5f5f5;
+    }
+    .chat-list img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .chat-list .info {
+      flex: 1;
+    }
+    .chat-list .name {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .chat-list .last-message {
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* Chat ao lado */
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h3>Recentes</h3>
+    <ul class="chat-list">
+      <li>
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=80&h=80" alt="">
+        <div class="info">
+          <div class="name">Salão Elegance</div>
+          <div class="last-message">Última mensagem...</div>
+        </div>
+      </li>
+      <li>
+        <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=facearea&w=80&h=80" alt="">
+        <div class="info">
+          <div class="name">Buffet Real</div>
+          <div class="last-message">Oi, já enviamos...</div>
+        </div>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- CHAT -->
+  <div class="chat-area">
+    <!-- HEADER -->
+    <header>
+      <div class="header-left">
+        <div class="back-button">
+          <i class="fas fa-arrow-left"></i>
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=80&h=80" 
+               alt="Salão Elegance" 
+               class="chat-avatar">
+        </div>
+        <div class="chat-info">
+          <div>
+            <div class="chat-name">Salão Elegance</div>
+            <div class="chat-status">Online</div>
+          </div>
+        </div>
+      </div>
+      <div class="header-icons">
+        <i class="fas fa-phone-alt"></i>
+        <i class="fas fa-video"></i>
+      </div>
+    </header>
+
+    <!-- BODY -->
+    <div class="chat-container"></div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="message-input">
+        <i class="far fa-smile"></i>
+        <input type="text" placeholder="Digite sua mensagem...">
+      </div>
+      <button class="send-button">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </footer>
+  </div>
+
+  <!-- JS do chat (mantido) -->
+  <script>
+  const chatContainer = document.querySelector('.chat-container');
+  const input = document.querySelector('.message-input input');
+  const sendBtn = document.querySelector('.send-button');
+
+  async function carregarMensagens() {
+      try {
+          chatContainer.innerHTML = '<div class="loading">Carregando...</div>';
+          const resp = await fetch('get_messages.php');
+          const mensagens = await resp.json();
+          chatContainer.innerHTML = '';
+          mensagens.forEach(msg => {
+              chatContainer.innerHTML += `
+                  <div class="message ${msg.tipo}">
+                      ${msg.texto}
+                      <div class="message-time">${msg.hora}</div>
+                  </div>
+              `;
+          });
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+      } catch {
+          chatContainer.innerHTML = '<div class="error">Erro ao carregar mensagens.</div>';
+      }
+  }
+
+  sendBtn.addEventListener('click', async () => {
+      const texto = input.value.trim();
+      if (!texto) return;
+      sendBtn.disabled = true;
+      await fetch('send_message.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ texto })
+      });
+      input.value = '';
+      sendBtn.disabled = false;
+      carregarMensagens();
+  });
+
+  input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendBtn.click();
+  });
+
+  setInterval(carregarMensagens, 2000);
+  carregarMensagens();
+  </script>
+</body>
+</html>
